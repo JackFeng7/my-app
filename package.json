@@ -30,7 +30,13 @@
     "test": "umi test",
     "test:all": "node ./tests/run-tests.js",
     "test:component": "umi test ./src/components",
-    "tsc": "tsc --noEmit"
+    "tsc": "tsc --noEmit",
+    "check": "eslint --ignore-pattern node_modules --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run check"
+    }
   },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
@@ -62,7 +68,8 @@
     "react-dom": "^17.0.0",
     "react-helmet-async": "^1.0.4",
     "umi": "^3.2.14",
-    "umi-request": "^1.0.8"
+    "umi-request": "^1.0.8",
+    "xlsx": "^0.16.9"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^1.0.28",
@@ -90,8 +97,9 @@
     "eslint": "^7.1.0",
     "express": "^4.17.1",
     "gh-pages": "^3.0.0",
+    "husky": "4.2.5",
     "jsdom-global": "^3.0.2",
-    "lint-staged": "^10.0.0",
+    "lint-staged": "^10.5.4",
     "mockjs": "^1.0.1-beta3",
     "prettier": "^2.0.1",
     "puppeteer-core": "^7.0.1",
