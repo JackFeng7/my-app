@@ -1,11 +1,47 @@
 import React from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Card, Alert } from 'antd';
+import { Card, Alert, Button} from 'antd';
 import { useIntl } from 'umi';
-// import styles from './Welcome.less';
+import XLSX from 'xlsx';
+
+import Line from '../components/charts/line';
 
 export default () => {
+
+  const [fileJson, setFileJson] = React.useState([]);
   const intl = useIntl();
+  const fileInput = React.createRef();
+
+  // 格式为json
+  const getFileJson = (workbook) => {
+    const json = [];
+    const sheets = workbook.Sheets;
+    Object.keys(sheets).forEach((key) => {
+      json.push({
+        name: key,
+        data: XLSX.utils.sheet_to_json(sheets[key]),
+      });
+    });
+    setFileJson(json);
+  }
+
+  // 聚焦上传文件
+  const click = () => {
+    fileInput.current.click();
+  }
+
+  // 上传文件
+  const uploadImportFile = (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+      const data = e.target.result;
+      const workbook = XLSX.read(data, {type: 'binary'});
+      getFileJson(workbook);
+    };
+    reader.readAsBinaryString(file);
+  };
+
   return (
     <PageContainer>
       <Card>
@@ -22,33 +58,23 @@ export default () => {
             marginBottom: 24,
           }}
         />
-        {/* <Typography.Text strong>
-          <FormattedMessage id="pages.welcome.advancedComponent" defaultMessage="高级表格" />{' '}
-          <a
-            href="https://procomponents.ant.design/components/table"
-            rel="noopener noreferrer"
-            target="__blank"
+        <div>
+          <input
+            ref={fileInput}
+            style={{display: 'none'}}
+            type='file'
+            accept='.xlsx, .xls'
+            onChange={uploadImportFile}
+          />
+          <Button
+            onClick={click}
           >
-            <FormattedMessage id="pages.welcome.link" defaultMessage="欢迎使用" />
-          </a>
-        </Typography.Text> */}
-        {/* <CodePreview>yarn add @ant-design/pro-table</CodePreview> */}
-        {/* <Typography.Text
-          strong
-          style={{
-            marginBottom: 12,
-          }}
-        >
-          <FormattedMessage id="pages.welcome.advancedLayout" defaultMessage="高级布局" />{' '}
-          <a
-            href="https://procomponents.ant.design/components/layout"
-            rel="noopener noreferrer"
-            target="__blank"
-          >
-            <FormattedMessage id="pages.welcome.link" defaultMessage="欢迎使用" />
-          </a>
-        </Typography.Text> */}
-        {/* <CodePreview>yarn add @ant-design/pro-layout</CodePreview> */}
+            {'导入'}
+          </Button>
+          <div style={{flex: 1, margin: '10px 30px'}}>
+              <Line data={fileJson}/>
+          </div>
+        </div>
       </Card>
     </PageContainer>
   );
