@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import { Line } from '@ant-design/charts';
+import {Empty} from 'antd';
 import moment from 'moment';
 
 export default class LineChart extends PureComponent {
@@ -9,9 +10,10 @@ export default class LineChart extends PureComponent {
     }
 
     render() {
+      const {total} = this.props;
         if (!this.props.data.length){
             return (
-                <p>{'暂无数据'}</p>
+              <Empty />
             );
         }
 
@@ -31,7 +33,14 @@ export default class LineChart extends PureComponent {
                 start: 0,
                 end: percent,
               },
-            legend: { position: 'top' },
+            legend: {
+              position: 'top',
+              itemName: {
+                formatter: (text) => {
+                  return `${text}:${total[text]}`;
+                }
+              }
+            },
             smooth: true,
             animation: {
               appear: {
@@ -39,6 +48,30 @@ export default class LineChart extends PureComponent {
                 duration: 5000,
               },
             },
+            annotations: [
+              {
+                type: 'regionFilter',
+                start: ['min', 'median'],
+                end: ['max', '0'],
+                color: '#F4664A',
+              },
+              {
+                type: 'text',
+                position: ['min', 'median'],
+                content: '中位数',
+                offsetY: -4,
+                style: { textBaseline: 'bottom' },
+              },
+              {
+                type: 'line',
+                start: ['min', 'median'],
+                end: ['max', 'median'],
+                style: {
+                  stroke: '#F4664A',
+                  lineDash: [2, 2],
+                },
+              },
+            ],
           };
         return <Line {...config} />;
     }

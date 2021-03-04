@@ -3,9 +3,9 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Alert, Button} from 'antd';
 import { useIntl } from 'umi';
 import XLSX from 'xlsx';
-
-import Line from '../components/charts/line';
 import moment from "moment";
+
+import Overview from '../components/overview/overview';
 
 export default () => {
 
@@ -29,18 +29,13 @@ export default () => {
             total[columnNames[index]] = element;
           }
           data.push({
-            date: moment(row[columnNames[0]]).format('YYYY-MM-DD'),
+            date: moment(row[columnNames[0]]).add(43, 'seconds').format('YYYY-MM-DD'), // js-xlsx库解析时间会少43秒
             name: columnNames[index],
             value: element,
           });
         }
       });
     });
-    data.forEach((item) => {
-      // eslint-disable-next-line no-param-reassign
-      item.name = `${item.name}:${Math.ceil(total[item.name])}`;
-    });
-    console.log(totalData)
     setLineData(data);
     setTotalData(total);
   }
@@ -111,9 +106,10 @@ export default () => {
             </Button>
             <span style={{marginLeft: 10, color: 'skyblue'}}>{fileName}</span>
           </div>
-          <div style={{flex: 1, margin: '10px 30px'}}>
-              <Line data={lineData}/>
-          </div>
+          <Overview
+            lineData={lineData}
+            totalData={totalData}
+          />
         </div>
       </Card>
     </PageContainer>
