@@ -47,9 +47,9 @@ export default class LineChart extends PureComponent {
             label: {
               type: 'inner',
               offset: '-50%',
-              style: { textAlign: 'center' },
+              style: { textAlign: 'center', fill: '#666'},
               autoRotate: false,
-              content: '{name}\n¥{value}\n占比:{percentage}',
+              content: '{name}:{percentage}',
             },
             interactions: [
               { type: 'element-selected', enable: false },
@@ -67,20 +67,21 @@ export default class LineChart extends PureComponent {
                     fontSize: 20,
                   },
                   formatter: (element) => {
-                    return `${element.type}\n¥:${element.value} | ${(element.value/pieData['支出'] * 100).toFixed(2)}%`;
+                    return `${element.type}\n¥${element.value.toFixed(2)} | ${(element.value/pieData['支出'] * 100).toFixed(2)}%`;
                   },
                   customHtml: () => {
                       let str = ''
                       totalData.forEach((item) => {
-                          str += `${item.type}:${item.value}\n`;
+                          str += `${item.type}：${item.value.toFixed(2)}\n`;
                       });
+                    str += `净收入：${(totalData[1].value - totalData[0].value).toFixed(2)}`
                       return str;
                   }
                 },
             },
             tooltip: {
                 formatter: (datum) => {
-                  return { name: datum.type, value: `¥${datum.value} | ${(datum.value/pieData['支出'] * 100).toFixed(2)}%`};
+                  return { name: datum.type, value: `¥${datum.value.toFixed(2)} | ${(datum.value/pieData['支出'] * 100).toFixed(2)}%`};
                 },
               }
           };

@@ -37,7 +37,7 @@ export default class LineChart extends PureComponent {
               position: 'top',
               itemName: {
                 formatter: (text) => {
-                  return `${text}:${total[text]}`;
+                  return `${text}:${total[text].toFixed(2)}`;
                 }
               }
             },
