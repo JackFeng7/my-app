@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react';
 import {Empty, Tabs} from 'antd';
 
-import Line from '../charts/line';
-import Pie from '../charts/pie';
+import Line from '../../components/charts/line';
+import Pie from '../../components/charts/pie';
 
 const { TabPane } = Tabs;
 

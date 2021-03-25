@@ -22,16 +22,25 @@ export default [
             path: '/',
             component: '../layouts/BasicLayout',
             authority: ['admin', 'user'],
+            //总入口
             routes: [
               {
                 path: '/',
-                redirect: '/welcome',
+                redirect: '/statistics',
               },
+              // 统计入口
               {
-                path: '/welcome',
-                name: 'welcome',
+                path: '/statistics',
+                name: '统计',
                 icon: 'smile',
-                component: './Welcome',
+                component: './StatisticsRoot'
+              },
+              // 数据录入入口
+              {
+                name: 'enter.title',
+                icon: 'table',
+                path: '/enter',
+                component: './EnterRoot',
               },
               {
                 path: '/admin',
@@ -44,16 +53,10 @@ export default [
                     path: '/admin/sub-page',
                     name: 'sub-page',
                     icon: 'smile',
-                    component: './Welcome',
+                    component: './StatisticsRoot',
                     authority: ['admin'],
                   },
                 ],
-              },
-              {
-                name: 'list.table-list',
-                icon: 'table',
-                path: '/list',
-                component: './TableList',
               },
               {
                 component: './404',

@@ -5,7 +5,7 @@ import { useIntl } from 'umi';
 import XLSX from 'xlsx';
 import moment from "moment";
 
-import Overview from '../components/overview/overview';
+import OverviewComponent from '../overview';
 
 export default () => {
 
@@ -106,7 +106,7 @@ export default () => {
             </Button>
             <span style={{marginLeft: 10, color: 'skyblue'}}>{fileName}</span>
           </div>
-          <Overview
+          <OverviewComponent
             lineData={lineData}
             totalData={totalData}
           />
