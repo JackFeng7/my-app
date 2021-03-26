@@ -27,7 +27,7 @@ export default class LineChart extends PureComponent {
           array.push({
             date: weekDate,
             name: names[j],
-            value: value[names[j]],
+            value: Math.round(value[names[j]]),
           });
         } else {
           array.push({
@@ -94,11 +94,13 @@ export default class LineChart extends PureComponent {
 
   renderSelect = () => {
     return (
-      <Select defaultValue="day" style={{ width: 120 }} onChange={this.handleChangeSelect}>
-        <Option value="day">天</Option>
-        <Option value="week">周</Option>
-        <Option value="month">月</Option>
-      </Select>
+      <div style={{display: 'flex', justifyContent: 'flex-end', padding: '10px 0px'}}>
+        <Select defaultValue="day" style={{ width: 120 }} onChange={this.handleChangeSelect}>
+          <Option value="day">天</Option>
+          <Option value="week">周</Option>
+          <Option value="month">月</Option>
+        </Select>
+      </div>
     );
   };
 
@@ -145,7 +147,9 @@ export default class LineChart extends PureComponent {
       return (
         <div>
             {this.renderSelect()}
-            <Line {...config} />
+            <div style={{height: 500}}>
+              <Line {...config} />
+            </div>
         </div>
       );
   }

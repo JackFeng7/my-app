@@ -109,6 +109,10 @@ export default class LineChart extends PureComponent {
       }
 
       const pieConfig = this.getPieConfig();
-      return <Pie {...pieConfig} />;
+      return (
+        <div style={{height: 500}}>
+          <Pie {...pieConfig} />
+        </div>
+      );
   }
 }
