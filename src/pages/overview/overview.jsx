@@ -9,7 +9,6 @@ const { TabPane } = Tabs;
 export default class Overview extends PureComponent {
     constructor(props) {
         super(props);
-        this.state={};
         this.tabs = [
             {
                 key: 'line',
